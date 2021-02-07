@@ -7,6 +7,12 @@ var playerStand
 var moveState = "stand"
 var pressCount = 0;
 
+//new
+var maxJump = 1;
+var power = 0;
+var jumps = 0;
+//new
+
 function preload(){
 spikeImg = loadImage("Images/spike.png")
 bg = loadImage("Images/back.jpg")
@@ -76,8 +82,9 @@ player.collide(Base2)
 spike.bounceOff(Invisigrnd)
 spike.bounceOff(Spikeinvisi)
 
-console.log(player.y);
+//console.log(player.y);
 
+/*
 if(keyDown(UP_ARROW) && pressCount === 0 && player.y > 450 ){
   player.velocityY = -12
   pressCount = 1;
@@ -88,8 +95,26 @@ if(keyDown(UP_ARROW) && pressCount === 0 && player.y > 450 ){
   player.velocityY = -20
   player.velocityX = 10;
 }
+*/
 
+//new
+if(keyIsDown(UP_ARROW) && power<40 ){
+  power++
+  console.log("power "+ power)
+}
 
+if(keyWentUp(UP_ARROW) && jumps<maxJump){
+  player.velocityY = -(power/2)
+  jumps++
+  console.log("jumps "+ jumps)
+}
+
+if((player.y>560 || player.isTouching(Base1invis) || player.isTouching(Base2invis)) && jumps === maxJump){
+  power = 0;
+  jumps = 0;
+}
+
+//new
 if(player.y>300){
   if (keyDown(RIGHT_ARROW)){
     player.velocityX = 5;
